@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   Light mode (default)
+   ============================================ */
+:root,
+html.light {
+  --editor-bg: #ffffff;
+  --editor-surface: #f3f3f3;
+  --editor-sidebar: #f0f0f0;
+  --editor-header: #e8e8e8;
+  --editor-border: #d4d4d4;
+  --editor-text: #1a1a1a;
+  --editor-textMuted: #6e6e6e;
+  --editor-accent: #0078d4;
+  --editor-hover: #e0e0e0;
+  --editor-active: #cce5ff;
+
+  --rf-bg: #ffffff;
+  --rf-control-bg: #f3f3f3;
+  --rf-control-border: #d4d4d4;
+  --rf-control-text: #333;
+  --rf-handle-bg: #888;
+  --rf-handle-border: #ffffff;
+  --rf-grid-dot: #d0d0d0;
+}
+
+/* ============================================
+   Dark mode
+   ============================================ */
+html.dark {
+  --editor-bg: #1e1e1e;
+  --editor-surface: #252526;
+  --editor-sidebar: #2d2d30;
+  --editor-header: #323233;
+  --editor-border: #3e3e42;
+  --editor-text: #cccccc;
+  --editor-textMuted: #8b8b8b;
+  --editor-accent: #0078d4;
+  --editor-hover: #2a2d2e;
+  --editor-active: #094771;
+
+  --rf-bg: #1e1e1e;
+  --rf-control-bg: #2d2d30;
+  --rf-control-border: #3e3e42;
+  --rf-control-text: #ccc;
+  --rf-handle-bg: #555;
+  --rf-handle-border: #1e1e1e;
+  --rf-grid-dot: #3a3a3a;
+}
+
+/* ============================================
+   Base
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* ============================================
+   React Flow overrides
+   ============================================ */
+.react-flow__node {
+  cursor: move;
+}
+.react-flow__node.selected > div {
+  box-shadow: 0 0 0 2px var(--editor-accent) !important;
+}
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--editor-accent) !important;
+}
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--editor-accent) !important;
+}
+.react-flow__handle {
+  width: 8px !important;
+  height: 8px !important;
+  background: var(--rf-handle-bg) !important;
+  border: 2px solid var(--rf-handle-border) !important;
+  border-radius: 50% !important;
+}
+.react-flow__handle:hover {
+  background: var(--editor-accent) !important;
+}
+.react-flow__controls button {
+  background: var(--rf-control-bg) !important;
+  border: 1px solid var(--rf-control-border) !important;
+  color: var(--rf-control-text) !important;
+  fill: var(--rf-control-text) !important;
+}
+.react-flow__controls button:hover {
+  filter: brightness(0.9);
+}
+.react-flow__minimap {
+  background: var(--rf-bg) !important;
+  border: 1px solid var(--editor-border) !important;
+  border-radius: 4px !important;
+}
+.react-flow__background {
+  background: var(--rf-bg) !important;
+}
+.react-flow__background pattern circle {
+  fill: var(--rf-grid-dot) !important;
+}
+.react-flow__attribution {
+  display: none !important;
+}

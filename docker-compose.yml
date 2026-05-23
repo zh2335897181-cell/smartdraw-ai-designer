@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: smartdraw-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: smartdraw_root
+      MYSQL_DATABASE: smartdraw
+      MYSQL_USER: smartdraw
+      MYSQL_PASSWORD: smartdraw_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: smartdraw-server
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: smartdraw
+      DB_PASSWORD: smartdraw_pass
+      DB_NAME: smartdraw
+      JWT_SECRET: change-me-in-production-use-long-random-string
+      CORS_ORIGIN: http://localhost
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: smartdraw-client
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: smartdraw-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - server
+      - client
+
+volumes:
+  mysql_data:
